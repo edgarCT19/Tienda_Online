@@ -1,0 +1,248 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+<!--<div class="card bg-dark text-white " >
+    <img src="https://mdbcdn.b-cdn.net/img/new/slides/005.webp" class="card-img" style="height: 350px;" alt="Stony Beach"/>
+    <div class="card-img-overlay">
+      <h5 class="card-title text-white text-center">Te llevemaos lo mejor hasta tu hogar</h5>
+      <p class="card-text text-center">
+        "Construyendo sueños, componente a componente. ¡Haz realidad tu potencial digital con nosotros!"
+      </p>
+      <p class="card-text text-center">Potencia tu rendimiento, haz clic en tu futuro tecnológico con nosotros, y goza de todos nuestros
+        productos en venta y con muchos beneficios.
+      </p>
+    </div>
+</div>-->
+
+<style>
+  .stock-badge {
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    transform: translate(-50%, -50%) rotate(-45deg);
+    color: white;
+    padding: 5px 10px; /* Ajustar el padding según sea necesario */
+    font-size: 0.8rem;
+    display: inline-block;
+    border-radius: 5px; /* Ajustar el radio del borde según sea necesario */
+    clip-path: polygon(0% 0%, 100% 0%, 100% 100%, 50% 80%, 0% 100%); /* Esto crea una forma de etiqueta */
+}
+
+</style>
+
+
+<div class="row">
+  {% for product in products %}
+  <div class="col-md-3 mt-3">
+    <div class="card rounded-5 position-relative" style="background-color: #FFFFF0;">
+      <div style="position: relative;">
+        <img src="{{product.imageURL}}" class="rounded-top-5 card-img-top position-relative thumbnail" alt="...">
+        <div class="stock-badge text-bg-danger">New</div>
+        <span class="bi bi-heart-fill text-danger position-absolute bottom-0 end-0" style="font-size: 1.5rem;"></span>
+      </div>
+      <div class="card-body text-center">
+          <span class="bi bi-star-fill text-warning"></span>
+          <span class="bi bi-star-fill text-warning"></span>
+          <span class="bi bi-star-fill text-warning"></span>
+          <span class="bi bi-star-fill text-warning"></span>
+          <span class="bi bi-star-fill text-warning"></span>
+        <h5 class="card-title">{{product.name}}</h5>
+        <!--<p class="card-text">Descripción del producto.</p>-->
+        <h6 class="card-text">${{ product.price|floatformat:2}}</h6>
+        <div class="d-grid gap-2">
+          {% if product.quantity > 0 %}
+          <button data-product="{{product.id}}" data-action="add" class="btn btn-outline-danger add-btn rounded-pill btn-block update-cart">Agregar al carrito <i class="bi bi-cart-plus"></i></button>
+          {% else %}
+          <button class="btn btn-outline-danger add-btn rounded-pill btn-block" disabled>Agregar al carrito <i class="bi bi-cart-plus"></i></button>
+          {% endif %}
+          <a href="#" class="btn btn-outline-dark rounded-pill btn-block mt-2" data-bs-toggle="modal" data-bs-target="#exampleModalScrollable{{product.id}}">Ver más <i class="bi bi-eye"></i></a>
+          <div class="d-flex justify-content-between align-items-center">
+            <span class="badge text-bg-success">Envío gratis <i class="bi bi-truck"></i></span>
+            
+            <span class="badge text-bg-secondary"><i class="bi bi-plus-slash-minus"></i> {{product.quantity}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+
+{% for product in products %}
+<!-- Modal -->
+<div class="modal fade" id="exampleModalScrollable{{product.id}}" tabindex="-1" role="dialog" aria-labelledby="exampleModalScrollableTitle{{product.id}}" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-scrollable modal-xl" role="document">
+        <div class="modal-content bg-dark text-light">
+            <div class="modal-header">
+                 <h5>Visualiza más detalles del producto</h5>
+                <button type="button" class="btn-close btn-close-white focus-ring" data-bs-dismiss="modal" aria-label="Close" style="--bs-focus-ring-color: rgba(var(--bs-danger-rgb), .25)"></button>
+            </div>
+            <div class="modal-body">         
+             
+              <section class="container my-5">
+                <div class="row">
+                  <div class="col-lg-6">
+                    <div id="productCarousel" class="carousel slide" data-bs-ride="carousel">
+                      <div class="carousel-inner">
+                        <div class="carousel-item active">
+                          <img src="{{product.imageURL}}" class="d-block w-100 thumbnail" alt="Imagen 1">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="{{product.imageunoURL}}" class="d-block w-100 thumbnail" alt="Imagen 2">
+                        </div>
+                        <div class="carousel-item">
+                          <img src="{{product.imagedosURL}}" class="d-block w-100 thumbnail" alt="Imagen 3">
+                        </div>
+                      </div>
+                      <button class="carousel-control-prev" type="button" data-bs-target="#productCarousel" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Anterior</span>
+                      </button>
+                      <button class="carousel-control-next" type="button" data-bs-target="#productCarousel" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Siguiente</span>
+                      </button>
+                    </div>
+                    <hr>
+                    <h3 class="mt-4">Detalles de Envío</h3>
+                    <ul>
+                      <li>Envío gratuito en pedidos superiores a $XX.XX</li>
+                      <li>Entrega rápida dentro de 3-5 días hábiles</li>
+                      <li>Seguimiento de envío disponible</li>
+                    </ul>
+                    <hr>
+                    <h3 class="mt-4">Garantía</h3>
+                    <p>Este producto está cubierto por nuestra garantía de satisfacción del 100%. Si tienes algún problema, contáctanos y te ayudaremos a resolverlo.</p>
+                    <hr>
+                    <h3 class="mt-4">Política de Devolución</h3>
+                    <p>Aceptamos devoluciones dentro de los primeros 30 días posteriores a la compra. Para obtener más información, consulta nuestra política de devolución completa.</p>
+                  </div>
+                  <div class="col-lg-6">
+                    <h2>{{ product.name }}</h2>
+                    <span class="bi bi-star-fill text-warning"></span>
+                    <span class="bi bi-star-fill text-warning"></span>
+                    <span class="bi bi-star-fill text-warning"></span>
+                    <span class="bi bi-star-fill text-warning"></span>
+                    <span class="bi bi-star-fill text-warning"></span>
+                    <p class="">{{ product.description }}</p>
+                    <h3 class="mt-4">Detalles</h3>
+                    <ul class="list-group">
+                      <li class="list-group-item">Capacidad: {{ product.qualityuno }}</li>
+                      <li class="list-group-item">Modelo: {{ product.qualitydos }}</li>
+                      <li class="list-group-item">Generación: {{ product.qualitytres }}</li>
+                      <li class="list-group-item">Gamer: {{ product.qualitycuatro }}</li>
+                      <li class="list-group-item">Tecnología: {{ product.qualitycinco }}</li>
+                    </ul>
+                    <div class="mt-4">
+                      <h3>${{ product.price|floatformat:2}}</h3>
+                      <div class="row">
+                        <div class="col-md-6 mb-2">
+                          <button data-product="{{product.id}}" data-action="add" class="btn btn-danger add-btn update-cart rounded-pill w-100">Agregar al carrito <i class="bi bi-cart-plus"></i></button>
+                        </div>
+                        <div class="col-md-6 mb-2">
+                          <button class="btn btn-outline-light rounded-pill w-100">Agregar a la Lista de Deseos</button>
+                        </div>
+                      </div>                      
+                    </div>
+                    <hr>
+                    <h3 class="mt-4">Especificaciones Técnicas</h3>
+                    <table class="table table-dark">
+                      <tr>
+                        <th>Inálambrico</th>
+                        <td>{{ product.qualityseis }}</td>
+                      </tr>
+                      <tr>
+                        <th>Recargable</th>
+                        <td>{{ product.qualitysiete }}</td>
+                      </tr>
+                      <tr>
+                        <th>Resolución de pantalla</th>
+                        <td>{{ product.qualityocho }}</td>
+                      </tr>
+                      <tr>
+                        <th>Voltaje</th>
+                        <td>{{ product.qualitynueve }}</td>
+                      </tr>
+                    </table>
+                    <hr>
+                    <h3 class="mt-4">Reseñas de Clientes</h3>
+                    <div class="card">
+                      <div class="card-body">
+                        <h5 class="card-title">Nombre del Cliente</h5>
+                        <p class="card-text">Excelente producto. Muy satisfecho con la compra.</p>
+                        <p class="card-text"><small class="text-muted">Publicado el 1 de enero de 2024</small></p>
+                      </div>
+                    </div>
+                    <div class="card mt-3">
+                      <div class="card-body">
+                        <h5 class="card-title">Nombre del Cliente</h5>
+                        <p class="card-text">El producto llegó en perfectas condiciones. Recomiendo totalmente.</p>
+                        <p class="card-text"><small class="text-muted">Publicado el 15 de febrero de 2024</small></p>
+                      </div>
+                    </div>
+                    <!-- Agregar más reseñas si es necesario -->
+                    <hr>
+                    <h3 class="mt-4">Preguntas Frecuentes</h3>
+                    <div class="accordion mt-3" id="faqAccordion">
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingOne">
+                          <button class="accordion-button focus-ring bg-danger-subtle" style="--bs-focus-ring-color: rgba(var(--bs-danger-rgb), .25)" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                            ¿Cuál es la política de devolución?
+                          </button>
+                        </h2>
+                        <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
+                          <div class="accordion-body">
+                            La política de devolución es de 30 días. Si no estás satisfecho con tu compra, puedes devolver el producto y recibir un reembolso completo.
+                          </div>
+                        </div>
+                      </div>
+                      <div class="accordion-item">
+                        <h2 class="accordion-header" id="headingTwo">
+                          <button class="accordion-button collapsed focus-ring bg-danger-subtle" style="--bs-focus-ring-color: rgba(var(--bs-danger-rgb), .25)" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                            ¿Cuánto tiempo tarda en llegar el producto?
+                          </button>
+                        </h2>
+                        <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
+                          <div class="accordion-body">
+                            El tiempo de entrega es de 3 a 5 días hábiles después de confirmar tu compra.
+                          </div>
+                        </div>
+                      </div>
+                      <!-- Agregar más preguntas frecuentes si es necesario -->
+                    </div>
+                   
+                  </div>
+                </div>
+                <!-- Agregar contenido adicional aquí, como productos relacionados, información adicional, etc. -->
+              </section>
+              
+
+            </div>
+            <div class="modal-footer">
+                <!--Colocar contenido-->
+            </div>
+        </div>
+    </div>
+</div>
+{% endfor %}
+
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script type="text/javascript">
+    $(document).ready(function() {
+        // Función para manejar el clic en los botones de agregar al carrito
+        $('.update-cart').click(function(e) {
+            // Verificar si el usuario está autenticado
+            var isAuthenticated = '{{ request.user.is_authenticated }}';
+            // Si el usuario no está autenticado, redirigirlo al formulario de inicio de sesión
+            if (isAuthenticated === 'False') {
+                e.preventDefault(); // Detener el comportamiento predeterminado del botón
+                window.location.href = '{% url "login" %}'; // Redireccionar al formulario de inicio de sesión
+            }
+        });
+    });
+</script>
+
+{% endblock content %}

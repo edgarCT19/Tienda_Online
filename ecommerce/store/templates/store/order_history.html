@@ -1,0 +1,79 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+<h2 class="text-light">Segumiento de tus Pedidos</h2>
+
+<div class="card text-center">
+    <div class="card-header">
+        Dale seguimiento a tu producto
+    </div>
+    <div class="card-body">
+        <h4 class="card-title">Fecha estimada: 28/05/2024</h4>
+        <h6 class="card-text">No. de seguimiento: # 988486892604</h6>
+        <ul class="nav nav-pills nav-fill gap-2 p-1 small bg-danger rounded-5 shadow-sm" id="pillNav2" role="tablist"
+            style="--bs-nav-link-color: var(--bs-white); --bs-nav-pills-link-active-color: var(--bs-success); --bs-nav-pills-link-active-bg: var(--bs-white); --bs-nav-link-hover-color: var(--bs-link-hover-secondary);">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active rounded-5" id="home-tab2" data-bs-toggle="tab" type="button" role="tab"
+                    aria-selected="true">Pagado <i class="bi bi-cart-check-fill"></i></button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link rounded-5" id="profile-tab2" data-bs-toggle="tab" type="button" role="tab"
+                    aria-selected="false">Empacado <i class="bi bi-box-seam"></i></button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link rounded-5" id="profile-tab2" data-bs-toggle="tab" type="button" role="tab"
+                    aria-selected="false">En camino <i class="bi bi-truck"></i></button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link rounded-5" id="contact-tab2" data-bs-toggle="tab" type="button" role="tab"
+                    aria-selected="false">Entregado <i class="bi bi-check2-circle"></i></button>
+            </li>
+        </ul>
+    </div>
+    <div class="card-footer text-body-secondary">
+        Cualquier contratiempo con tu pedido se te hará saber por tu dirección de email.
+    </div>
+</div>
+
+<script>
+    // Función para cambiar de estado cada 2 minutos
+    function changeStatus() {
+        var statuses = ['Pagado', 'Empacado', 'En camino', 'Entregado'];
+        var currentIndex = localStorage.getItem('currentStatusIndex') || 0;
+        var nextIndex = parseInt(currentIndex) + 1;
+
+        if (nextIndex < statuses.length) {
+            document.querySelectorAll('.nav-link').forEach(link => link.classList.remove('active'));
+            document.querySelectorAll('.nav-link')[nextIndex].classList.add('active');
+            localStorage.setItem('currentStatusIndex', nextIndex);
+            setTimeout(changeStatus, 30000); // Cambia cada 2 minutos (120000 milisegundos)
+        } else {
+            // Si el estado es "Entregado", muestra una alerta
+            alert('¡El pedido ha sido entregado exitosamente!');
+            localStorage.removeItem('currentStatusIndex'); // Elimina el índice actual del almacenamiento local
+        }
+    }
+
+    // Desactivar el evento de clic en los botones de estado
+    document.querySelectorAll('.nav-link').forEach(link => {
+        link.addEventListener('click', function(event) {
+            event.preventDefault(); // Evita el comportamiento predeterminado al hacer clic en el enlace
+        });
+    });
+
+    // Inicia la simulación de recorrido de entrega al cargar la página
+    document.addEventListener('DOMContentLoaded', function() {
+        var currentIndex = localStorage.getItem('currentStatusIndex');
+        if (currentIndex !== null) {
+            setTimeout(changeStatus, 30000); // Continuar desde el último estado almacenado
+        } else {
+            localStorage.setItem('currentStatusIndex', 0); // Inicia desde el primer estado si no hay estado actual almacenado
+            setTimeout(changeStatus, 30000); // Inicia después de 2 minutos
+        }
+    });
+</script>
+
+
+
+{% endblock content %}

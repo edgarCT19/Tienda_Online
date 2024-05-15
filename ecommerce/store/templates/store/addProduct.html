@@ -1,0 +1,120 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+<section>
+    <div class="container mt-2">
+        <div class="row justify-content-center card-wrapper">
+            <div class="col-md-8">
+                <div class="card bg-dark text-light border-danger">
+                    <div class="card-header bg-transparent border-danger text-center">Registra tu producto</div>
+                    <form method="POST" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <div class="card-body" style="max-height: 400px; overflow-y: auto;">
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="name" class="form-label">Nombre del producto</label>
+                                        {{ form.name }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="mark" class="form-label">Marca del producto</label>
+                                        {{ form.mark }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="price" class="form-label">Precio del producto</label>
+                                        {{ form.price }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="quantity" class="form-label">Cantidad(cuántos tienes disponibles)</label>
+                                        {{ form.quantity }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="description" class="form-label">Descripción del producto</label>
+                                        {{ form.description }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="section" class="form-label">Sección del producto</label>
+                                        {{ form.section }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="image" class="form-label">Imagen principal del producto</label>
+                                        {{ form.image }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="imageuno" class="form-label">2da imagen del producto</label>
+                                        {{ form.imageuno }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="imagedos" class="form-label">3ra imagen del producto</label>
+                                        {{ form.imagedos }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="imagetres" class="form-label">4ta imagen del producto</label>
+                                        {{ form.imagetres }}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="mb-3">
+                                        <label for="imagecuatro" class="form-label">5ta imagen del producto</label>
+                                        {{ form.imagecuatro }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="imagecinco" class="form-label">6ta imagen del producto</label>
+                                        {{ form.imagecinco }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="qualityuno" class="form-label">Capacidad(GB, MB, TB)</label>
+                                        {{ form.qualityuno }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="qualitydos" class="form-label">Modelo</label>
+                                        {{ form.qualitydos }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="qualitytres" class="form-label">Generación(de acuerdo al componente)</label>
+                                        {{ form.qualitytres }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="qualitycuatro" class="form-label">Gamer(escirbe SI o NO)</label>
+                                        {{ form.qualitycuatro }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="qualitycinco" class="form-label">Tecnología(escribe la tecnología del componente)</label>
+                                        {{ form.qualitycinco }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="qualityseis" class="form-label">Inálambrico(escirbe SI o NO)</label>
+                                        {{ form.qualityseis }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="qualitysiete" class="form-label">Recargable(escirbe SI o NO)</label>
+                                        {{ form.qualitysiete }}
+                                    </div>
+                                    <div class="mb-3">
+                                        <label for="qualityocho" class="form-label">Resolución(en caso de ser monitor, si no escriba NONE)</label>
+                                        {{ form.qualityocho }}
+                                    </div>
+                                </div>
+                                <div class="mb-3">
+                                    <label for="qualitynueve" class="form-label">Voltaje</label>
+                                    {{ form.qualitynueve }}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="bg-transparent text-center mt-2">
+                            <button type="submit" class="btn btn-danger rounded-pill">Publicar en la tienda <i
+                                    class="bi bi-shop"></i></button>
+                        </div>
+                    </form>
+                    <div class="card-footer bg-transparent border-danger text-center mt-2">
+                        Tu información está protegida.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+{% endblock content %}

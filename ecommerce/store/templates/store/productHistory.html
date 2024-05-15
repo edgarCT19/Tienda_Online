@@ -1,0 +1,92 @@
+{% extends 'store/main.html' %}
+{% block content %}
+
+<section>
+  <div class="container py-5">
+    <div class="row">
+      <div class="col">
+        <nav aria-label="breadcrumb" class="bg-body-tertiary bg-danger rounded-3 p-3 mb-2">
+          <h6>Historial de tus productos publicados en la tienda</h6>
+        </nav>
+      </div>
+    </div>
+    <div class="row">
+      {% if products %}
+      <div class="col">
+        <div class="table-responsive">
+          <table class="table table-striped">
+            <thead>
+              <tr>
+                <th scope="col">Imagen</th>
+                <th scope="col">Nombre</th>
+                <th scope="col">Precio</th>
+                <th scope="col">Cantidad</th>
+                <th scope="col">Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for product in products %}
+              <tr>
+                <td><img src="{{ product.imageURL }}" class="thumbnail" alt="Producto" style="max-width: 50px; height: auto;"></td>
+                <td>{{ product.name }}</td>
+                <td>${{ product.price }}</td>
+                <td>x{{ product.quantity }}</td>
+                <td>
+                  <button type="button" class="btn btn-secondary btn-sm" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal{{ product.id }}"><i class="bi bi-pencil-square"></i></button>
+                  <button type="button" class="btn btn-danger btn-sm btn-delete"
+                    data-product-id="{{ product.id }}"><i class="bi bi-trash3"></i></button>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </div>
+      {% else %}
+      <div class="col">
+        <div class="alert alert-danger" role="alert">
+          ¡No has publicado ningún producto en la tienda!
+        </div>
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+
+    // Agrega un controlador de evento de clic a los botones de eliminar
+    document.querySelectorAll('.btn-delete').forEach(button => {
+      button.addEventListener('click', function () {
+        const productId = this.getAttribute('data-product-id');
+        // Mostrar una alerta de confirmación antes de eliminar el producto
+        if (confirm('¿Estás seguro de que deseas eliminar este producto?')) {
+          // Si el usuario confirma la eliminación, enviar una solicitud DELETE al servidor
+          fetch(`/delete-product/${productId}/`, {
+            method: 'DELETE',
+            headers: {
+              'X-CSRFToken': '{{ csrf_token }}'  // Asegúrate de reemplazar '{{ csrf_token }}' con el valor correcto del token CSRF
+            }
+          })
+            .then(response => {
+              if (response.ok) {
+                // Si la solicitud se realizó con éxito, eliminar la tarjeta del producto de la vista
+                const productCard = this.closest('.col-md-12');
+                productCard.remove();
+              } else {
+                console.error('Error al eliminar el producto');
+              }
+            })
+            .catch(error => {
+              console.error('Error al eliminar el producto:', error);
+            });
+        }
+      });
+    });
+  });
+</script>
+
+{% endblock content %}

@@ -1,0 +1,65 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+<section>
+  <div class="container mt-2">
+    <div class="row justify-content-center card-wrapper">
+      <div class="col-md-8">
+        <div class="card bg-dark text-light border-danger">
+          <div class="card-header bg-transparent border-danger text-center">Editar perfil</div>
+          <div class="text-center">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+              class="rounded-circle img-fluid" style="width: 150px;">
+          </div>
+          <form action="">
+            <div class="card-body">
+              <div class="row">
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="username" class="form-label">Nombre de usuario</label>
+                    <input type="text" class="form-control" id="username" value="{{ user.username }}" disabled>
+                  </div>
+                  <div class="mb-3">
+                    <label for="email" class="form-label">Correo electrónico</label>
+                    <input type="email" class="form-control" id="email" value="{{ user.customer.email }}" disabled>
+                  </div>
+                  <div class="mb-3">
+                    <label for="registro" class="form-label">Fecha de registro</label>
+                    <input type="text" class="form-control" id="registro" value="{{ user.date_joined|date:'d/m/Y' }}"
+                      disabled>
+                  </div>
+                </div>
+                <div class="col-md-6">
+                  <div class="mb-3">
+                    <label for="cellphone" class="form-label">Número de teléfono</label>
+                    <input type="text" class="form-control" id="cellphone" value="{{ user.customer.phone_number }}"
+                      disabled>
+                  </div>
+                  <div class="mb-3">
+                    <label for="confirmar-contrasena" class="form-label">Confirmar contraseña</label>
+                    <input type="password" class="form-control" id="confirmar-contrasena" value="{{ user.password }}"
+                      disabled>
+                  </div>
+                  <div class="mb-3">
+                    <label for="fullname" class="form-label">Nombre completo</label>
+                    <input type="text" class="form-control" id="fullname" value="{{ user.customer.name }}" disabled>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="bg-transparent border-success text-center">
+              <button type="button" class="btn btn-danger rounded-pill">Editar información <i
+                  class="bi bi-pencil-square"></i></button>
+            </div>
+          </form>
+          <div class="card-footer bg-transparent border-danger text-center mt-2">
+            Tu información está protegida.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock content %}

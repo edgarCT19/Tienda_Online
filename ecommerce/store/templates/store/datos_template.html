@@ -1,0 +1,13 @@
+{% extends 'store/main.html' %}
+{% load static %}
+{% block content %}
+
+<h1 class="text-light">Datos recibidos desde Laravel</h1>
+<p class="text-light">{{ mensaje_laravel }}</p>
+
+<h2 class="text-light">Datos adicionales</h2>
+<p class="text-light">Nombre: {{ nombre }}</p>
+<p class="text-light">Apellido: {{ apellido }}</p>
+<p class="text-light">Edad: {{ edad }}</p>
+
+{% endblock content %}
